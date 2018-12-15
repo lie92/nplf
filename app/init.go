@@ -2,6 +2,9 @@ package app
 
 import (
 	"github.com/revel/revel"
+	"database/sql"
+	_ "github.com/lib/pq"
+	"fmt"
 )
 
 var (
@@ -11,6 +14,33 @@ var (
 	// BuildTime revel app build-time (ldflags)
 	BuildTime string
 )
+var db *sql.DB
+const (
+    dbhost = "localhost"
+    dbport = "5433"
+    dbuser = "postgres"
+    dbpass = "postgres"
+    dbname = "go"
+)
+
+func InitDB() {
+    var err error
+    psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
+        "password=%s dbname=%s sslmode=disable",
+        dbhost, dbport,
+        dbuser, dbpass, dbname)
+
+    db, err = sql.Open("postgres", psqlInfo)
+    if err != nil {
+        panic(err)
+    }
+    err = db.Ping()
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println("Successfully connected!")
+}
+
 
 func init() {
 	// Filters is the default set of global filters.
@@ -34,9 +64,11 @@ func init() {
 	// revel.DevMode and revel.RunMode only work inside of OnAppStart. See Example Startup Script
 	// ( order dependent )
 	// revel.OnAppStart(ExampleStartupScript)
-	// revel.OnAppStart(InitDB)
+	revel.OnAppStart(InitDB)
 	// revel.OnAppStart(FillCache)
 }
+
+
 
 // HeaderFilter adds common security headers
 // There is a full implementation of a CSRF filter in
