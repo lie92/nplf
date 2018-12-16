@@ -77,7 +77,7 @@ func createTables() {
 	}
 
 	const longForm = "Jan 2, 2006 at 3:04pm (MST)"
-	t, _ := time.Parse(longForm, "Feb 3, 2013 at 7:54pm (PST)")
+	t, _ := time.Parse(longForm, "Dec 29, 2018 at 7:54pm (PST)")
 
 	eric := models.User{Firstname: "eric", Lastname : "li", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645"}
 	tony := models.User{Firstname: "tony", Lastname : "huang", Email : "tony@gmail.com", Password : "1234", Phone:"0522398645"}

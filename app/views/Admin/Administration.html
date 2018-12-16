@@ -71,38 +71,40 @@ as updated fields:
                 </div>
 
                 <div class="card-body" id="admin_body">
-                    <form onsubmit="return false">
-                        <!--
-                        <div class="form-group row">
-                            <label for="select_action" class="col-sm-4 col-form-label">Action à effectuer :</label>
-                            <div class="col-sm-5">
-                                <select id="select_action" class="form-control">
-                                    <option class="user_opt" value="del_user">Accepter ou refuser demande</option>
-                                    <option class="user_opt" value="add_user">Modifier demande</option>
-                                </select>
-                            </div>
-                        </div> -->
+                    <form action="{{url "Admin.Administration"}}" method="get">
+                    <!--
+                    <div class="form-group row">
+                        <label for="select_action" class="col-sm-4 col-form-label">Action à effectuer :</label>
+                        <div class="col-sm-5">
+                            <select id="select_action" class="form-control">
+                                <option class="user_opt" value="del_user">Accepter ou refuser demande</option>
+                                <option class="user_opt" value="add_user">Modifier demande</option>
+                            </select>
+                        </div>
+                    </div> -->
 
                         <div id="begin_date_selection_part">
-                            <div class="form-group row">
+                            <div class="form-group">
                                 <div class="col-md-6">
-                                    <label class="col-form-label">Du :</label>
-                                    <input class="form-control" type="date" id="begin_date_input" placeholder="Date" name="date"/>
+                                    <label class="col-form-label" for="begin_date_input">Du :</label>
+                                    <input class="form-control" type="date" id="begin_date_input" placeholder="Date" name="begin_date_input"/>
                                 </div>
                             </div>
                         </div>
 
                         <div id="end_date_selection_part">
-                            <div class="form-group row">
+                            <div class="form-group">
                                 <div class="col-md-6">
-                                    <label class="col-form-label">Au :</label>
-                                    <input class="form-control" type="date" id="end_date_input" placeholder="Date" name="date"/>
+                                    <label class="col-form-label" for="end_date_input">Au :</label>
+                                    <input class="form-control" type="date" id="end_date_input" placeholder="Date" name="end_date_input"/>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <a id="redirect_link"><button type="button" class="btn btn-success" id="confirm">Valider</button></a>
+                        <div class="form-group no-margin">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                Valider
+                            </button>
                         </div>
 
                     </form>
