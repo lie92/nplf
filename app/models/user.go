@@ -7,4 +7,5 @@ type User struct {
 	Password	string
 	admin 		bool
 	UID       	int
+	Phone		string
 }

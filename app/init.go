@@ -15,10 +15,10 @@ var (
 	// BuildTime revel app build-time (ldflags)
 	BuildTime string
 )
-var db *sql.DB
+var Db *sql.DB
 const (
     dbhost = "localhost"
-    dbport = "5433"
+    dbport = "5432"
     dbuser = "postgres"
     dbpass = "postgres"
     dbname = "go"
@@ -31,11 +31,11 @@ func InitDB() {
         dbhost, dbport,
         dbuser, dbpass, dbname)
 
-    db, err = sql.Open("postgres", psqlInfo)
+	Db, err = sql.Open("postgres", psqlInfo)
     if err != nil {
         panic(err)
     }
-    err = db.Ping()
+    err = Db.Ping()
     if err != nil {
         panic(err)
     }
@@ -54,7 +54,8 @@ func createTables() {
 		lastname    varchar(40) NOT NULL,
 		email	    varchar(40) NOT NULL,
 		password	varchar(40) NOT NULL,
-		admin 		boolean
+		admin 		boolean,
+		phone		varchar(40) NOT NULL
 	);
 	CREATE TABLE tags (
 		UID       	SERIAL PRIMARY KEY,
@@ -65,23 +66,23 @@ func createTables() {
 		reason		varchar(80) NOT NULL
 	);`
 
-	_, err := db.Exec(sqlStatement)
+	_, err := Db.Exec(sqlStatement)
 	if err != nil {
   		panic(err)
 	}
 
-	eric := models.User{Firstname: "Flavio", Lastname : "Copes", Email : "eric@gmail.com", Password : "1234"}
+	eric := models.User{Firstname: "Flavio", Lastname : "Copes", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645"}
 	defer createAccount(eric)
 	fmt.Println("creation compte")
 }
 
 func createAccount(user models.User) {
 	sqlStatement := `
-INSERT INTO users (firstname, lastname, email, password, admin)
-VALUES ($1, $2, $3, $4, false)
+INSERT INTO users (firstname, lastname, email, password, admin, phone)
+VALUES ($1, $2, $3, $4, false, $5)
 RETURNING id`
   id := 0
-  err := db.QueryRow(sqlStatement, user.Firstname, user.Lastname, user.Email, user.Password).Scan(&id)
+  err := Db.QueryRow(sqlStatement, user.Firstname, user.Lastname, user.Email, user.Password, user.Phone).Scan(&id)
   if err != nil {
     panic(err)
   }

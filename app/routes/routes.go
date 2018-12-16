@@ -120,10 +120,18 @@ func (_ tApp) Inscription(
 
 func (_ tApp) SignIn(
 		nom string,
+		prenom string,
+		email string,
+		password string,
+		phone string,
 		) string {
 	args := make(map[string]string)
 	
 	revel.Unbind(args, "nom", nom)
+	revel.Unbind(args, "prenom", prenom)
+	revel.Unbind(args, "email", email)
+	revel.Unbind(args, "password", password)
+	revel.Unbind(args, "phone", phone)
 	return revel.MainRouter.Reverse("App.SignIn", args).URL
 }
 
