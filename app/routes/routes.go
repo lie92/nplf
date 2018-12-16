@@ -117,3 +117,29 @@ func (_ tApp) Login(
 }
 
 
+type tClient struct {}
+var Client tClient
+
+
+func (_ tClient) Index(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Client.Index", args).URL
+}
+
+func (_ tClient) Facture(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Client.Facture", args).URL
+}
+
+func (_ tClient) Demande(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Client.Demande", args).URL
+}
+
+

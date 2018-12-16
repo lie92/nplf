@@ -1,0 +1,74 @@
+{{set . "title" "Facture"}}
+{{template "header.html" .}}
+
+<header class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <h1 class="center" style="text-align: center;width: 100%;">Facture</h1>
+            <p></p>
+        </div>
+    </div>
+</header>
+
+{{if .nettoyages}}
+    <table>
+        <thead>
+        <div class="row">
+            <div class="col-lg-3">
+
+            </div>
+            <div class="col-lg-2 h3" style="text-align: left;">
+                Date
+            </div>
+            <div class="col-lg-2 h3" style="text-align: left;">
+                Addresse
+            </div>
+            <div class="col-lg-2 h3" style="text-align: left">
+                Prix
+            </div>
+            <div class="col-lg-3">
+
+            </div>
+        </div>
+        </thead>
+        <tbody>
+        {{range .nettoyages}}
+            <div class="row">
+                <div class="col-lg-3">
+
+                </div>
+                <div class="col-lg-2" style="text-align: left;font-weight: 500">
+                    {{.Date}}
+                </div>
+                <div class="col-lg-2" style="text-align: left;font-weight: 500">
+                    {{.Addresse}}
+                </div>
+                <div class="col-lg-2" style="text-align: left;font-weight: 500">
+                    {{.Prix}}€
+                </div>
+                <div class="col-lg-3">
+
+                </div>
+            </div>
+        {{end}}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-lg-3">
+
+        </div>
+        <div class="col-lg-6" style="text-align: right;font-weight: 500">
+            Total: {{.price}}€
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+    </div>
+{{else}}
+    <p>
+        Rien dans le panier
+    </p>
+{{end}}
+
+
+{{template "footer.html" .}}

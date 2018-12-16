@@ -11,6 +11,15 @@ GET     /                                       App.Index
 
 GET     /login                                  App.Login
 
+GET     /client                                 Client.Index
+
+GET     /client/facture                         Client.Facture
+
+GET     /client/demande                         Client.Demande
+
+
+
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
