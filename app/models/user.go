@@ -8,4 +8,6 @@ type User struct {
 	admin 		bool
 	UID       	int
 	Phone		string
+
+	//sql.nullstring
 }
