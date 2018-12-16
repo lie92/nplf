@@ -7,9 +7,11 @@ module:testrunner
 # module:jobs
 
 
-GET     /                                       App.Index
+GET     /                                      App.Login
 
-GET     /login                                  App.Login
+GET     /Inscription                           App.Inscription
+
+POST    /SignIn                                App.SignIn
 
 GET     /client                                 Client.Index
 

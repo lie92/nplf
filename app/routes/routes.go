@@ -102,18 +102,29 @@ type tApp struct {}
 var App tApp
 
 
-func (_ tApp) Index(
+func (_ tApp) Login(
+		message string,
 		) string {
 	args := make(map[string]string)
 	
-	return revel.MainRouter.Reverse("App.Index", args).URL
+	revel.Unbind(args, "message", message)
+	return revel.MainRouter.Reverse("App.Login", args).URL
 }
 
-func (_ tApp) Login(
+func (_ tApp) Inscription(
 		) string {
 	args := make(map[string]string)
 	
-	return revel.MainRouter.Reverse("App.Login", args).URL
+	return revel.MainRouter.Reverse("App.Inscription", args).URL
+}
+
+func (_ tApp) SignIn(
+		nom string,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "nom", nom)
+	return revel.MainRouter.Reverse("App.SignIn", args).URL
 }
 
 
