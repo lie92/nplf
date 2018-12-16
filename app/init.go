@@ -2,6 +2,10 @@ package app
 
 import (
 	"github.com/revel/revel"
+	"database/sql"
+	_ "github.com/lib/pq"
+	"fmt"
+	"nlpf/app/models"
 )
 
 var (
@@ -11,6 +15,78 @@ var (
 	// BuildTime revel app build-time (ldflags)
 	BuildTime string
 )
+var db *sql.DB
+const (
+    dbhost = "localhost"
+    dbport = "5433"
+    dbuser = "postgres"
+    dbpass = "postgres"
+    dbname = "go"
+)
+
+func InitDB() {
+    var err error
+    psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
+        "password=%s dbname=%s sslmode=disable",
+        dbhost, dbport,
+        dbuser, dbpass, dbname)
+
+    db, err = sql.Open("postgres", psqlInfo)
+    if err != nil {
+        panic(err)
+    }
+    err = db.Ping()
+    if err != nil {
+        panic(err)
+    }
+	fmt.Println("Successfully connected!")
+	createTables()
+	fmt.Println("Tables created")	
+}
+
+func createTables() {
+	sqlStatement := `
+	DROP TABLE IF EXISTS users CASCADE;
+	DROP TABLE IF EXISTS tags CASCADE;
+	CREATE TABLE users (
+		id       	SERIAL PRIMARY KEY,
+		firstname   varchar(40) NOT NULL,
+		lastname    varchar(40) NOT NULL,
+		email	    varchar(40) NOT NULL,
+		password	varchar(40) NOT NULL,
+		admin 		boolean
+	);
+	CREATE TABLE tags (
+		UID       	SERIAL PRIMARY KEY,
+		userId		integer REFERENCES users(id),
+		time  	 	date,
+		place    	varchar(80) NOT NULL,
+		accepted    boolean,
+		reason		varchar(80) NOT NULL
+	);`
+
+	_, err := db.Exec(sqlStatement)
+	if err != nil {
+  		panic(err)
+	}
+
+	eric := models.User{Firstname: "Flavio", Lastname : "Copes", Email : "eric@gmail.com", Password : "1234"}
+	defer createAccount(eric)
+	fmt.Println("creation compte")
+}
+
+func createAccount(user models.User) {
+	sqlStatement := `
+INSERT INTO users (firstname, lastname, email, password, admin)
+VALUES ($1, $2, $3, $4, false)
+RETURNING id`
+  id := 0
+  err := db.QueryRow(sqlStatement, user.Firstname, user.Lastname, user.Email, user.Password).Scan(&id)
+  if err != nil {
+    panic(err)
+  }
+  fmt.Println("New record ID is:", id)
+}
 
 func init() {
 	// Filters is the default set of global filters.
@@ -34,9 +110,11 @@ func init() {
 	// revel.DevMode and revel.RunMode only work inside of OnAppStart. See Example Startup Script
 	// ( order dependent )
 	// revel.OnAppStart(ExampleStartupScript)
-	// revel.OnAppStart(InitDB)
+	revel.OnAppStart(InitDB)
 	// revel.OnAppStart(FillCache)
 }
+
+
 
 // HeaderFilter adds common security headers
 // There is a full implementation of a CSRF filter in
