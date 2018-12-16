@@ -38,7 +38,10 @@
 
                 </div>
                 <div class="col-lg-2" style="text-align: left;font-weight: 500">
-                    {{.Time}}
+                    {{.Time.Day}} {{.Time.Month}} {{.Time.Year}}
+                    {{if gt .Time.Hour 9 }}
+                        {{.Time.Hour}}:{{else}}
+                        0{{.Time.Hour}}:{{end}}{{if gt .Time.Hour 9 }}{{.Time.Minute}}{{else}}0{{.Time.Minute}}{{end}}
                 </div>
                 <div class="col-lg-2" style="text-align: left;font-weight: 500">
                     {{.Place}}
@@ -69,6 +72,10 @@
         Rien dans le panier
     </p>
 {{end}}
-
+<div class="form-group text-center">
+    <a href="{{url "Client.Index"}}" class="text-center">
+        Retour
+    </a>
+</div>
 
 {{template "footer.html" .}}
