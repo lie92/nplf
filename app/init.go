@@ -79,8 +79,8 @@ func createTables() {
 	tony := models.User{Firstname: "tony", Lastname : "huang", Email : "tony@gmail.com", Password : "1234", Phone:"0522398645"}
 	momo := models.User{Firstname: "momo", Lastname : "bennis", Email : "momo@gmail.com", Password : "1234", Phone:"0522398645"}
 	tag1 := models.Tag{UserId: 1, Time : "06-0700", Place : "paris", Price : 14}
-	tag2 := models.Tag{UserId: 0, Time : "06-0700", Place : "creteil", Price : 15}
-	tag3 := models.Tag{UserId: 0, Time : "06-0700", Place : "italie", Price : 16}
+	tag2 := models.Tag{UserId: 2, Time : "06-0700", Place : "creteil", Price : 15}
+	tag3 := models.Tag{UserId: 2, Time : "06-0700", Place : "italie", Price : 16}
 
 
 	defer createAccount(eric)
