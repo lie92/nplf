@@ -17,7 +17,7 @@ func (c Admin) Administration() revel.Result {
 func acceptOffer(id int) {
 	sqlStatement := `
 	UPDATE tags 
-	SET accepted = true
+	SET accepted = true, pending = false
 	WHERE id = $1; `
 
 	_, err := app.Db.Exec(sqlStatement, id)
@@ -31,7 +31,7 @@ func acceptOffer(id int) {
 func refuseOffer(id int, reason string) {
 	sqlStatement := `
 	UPDATE tags 
-	SET accepted = false, reason = $2
+	SET pending = false, accepted = false, reason = $2
 	WHERE id = $1; `
 
 	_, err := app.Db.Exec(sqlStatement, id, reason)
