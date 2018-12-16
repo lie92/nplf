@@ -2,7 +2,7 @@ package models
 
 type Nettoyage struct {
 	ClientId          int
-	Date, Addresse    string
+	Date, Addresse     string
 	Prix              int
 }
 

@@ -1,10 +1,13 @@
 package models
 
 type Tag struct {
-	UID       	int
-	userId		int
+	id       	int
+	UserId		int
 	Time  	 	string
 	Place    	string
 	Accepted    bool
 	Reason		string
-}
+	Price		int
+	Phone		string
+	Motif		string
+}	

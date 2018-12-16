@@ -114,6 +114,17 @@ type tApp struct {}
 var App tApp
 
 
+func (_ tApp) Auth(
+		email string,
+		password string,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "email", email)
+	revel.Unbind(args, "password", password)
+	return revel.MainRouter.Reverse("App.Auth", args).URL
+}
+
 func (_ tApp) Login(
 		message string,
 		) string {

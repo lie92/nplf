@@ -6,6 +6,7 @@ import (
 	_ "github.com/lib/pq"
 	"fmt"
 	"nlpf/app/models"
+
 )
 
 var (
@@ -58,12 +59,15 @@ func createTables() {
 		phone		varchar(40) NOT NULL
 	);
 	CREATE TABLE tags (
-		UID       	SERIAL PRIMARY KEY,
-		userId		integer REFERENCES users(id),
-		time  	 	date,
+		id       	SERIAL PRIMARY KEY,
+		userId		integer NOT NULL,
+		time  	 	varchar(80) NOT NULL,
 		place    	varchar(80) NOT NULL,
 		accepted    boolean,
-		reason		varchar(80) NOT NULL
+		reason		varchar(80),
+		price       int NOT NULL,
+		phone		varchar(80),
+		motif		varchar(80)
 	);`
 
 	_, err := Db.Exec(sqlStatement)
@@ -71,8 +75,20 @@ func createTables() {
   		panic(err)
 	}
 
-	eric := models.User{Firstname: "Flavio", Lastname : "Copes", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645"}
+	eric := models.User{Firstname: "eric", Lastname : "li", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645"}
+	tony := models.User{Firstname: "tony", Lastname : "huang", Email : "tony@gmail.com", Password : "1234", Phone:"0522398645"}
+	momo := models.User{Firstname: "momo", Lastname : "bennis", Email : "momo@gmail.com", Password : "1234", Phone:"0522398645"}
+	tag1 := models.Tag{UserId: 1, Time : "06-0700", Place : "paris", Price : 14}
+	tag2 := models.Tag{UserId: 2, Time : "06-0700", Place : "creteil", Price : 15}
+	tag3 := models.Tag{UserId: 2, Time : "06-0700", Place : "italie", Price : 16}
+
+
 	defer createAccount(eric)
+	defer createAccount(momo)
+	defer createAccount(tony)
+	defer createTag(tag1)
+	defer createTag(tag2)
+	defer createTag(tag3)
 	fmt.Println("creation compte")
 }
 
@@ -88,6 +104,20 @@ RETURNING id`
   }
   fmt.Println("New record ID is:", id)
 }
+
+func createTag(tag models.Tag) {
+	sqlStatement := `
+INSERT INTO tags (userId, time, place, price)
+VALUES ($1, $2, $3, $4)
+RETURNING id`
+  id := 0
+  err := Db.QueryRow(sqlStatement, tag.UserId, tag.Time, tag.Place, tag.Price).Scan(&id)
+  if err != nil {
+    panic(err)
+  }
+  fmt.Println("New record ID is:", id)
+}
+
 
 func init() {
 	// Filters is the default set of global filters.
