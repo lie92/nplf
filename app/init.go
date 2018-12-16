@@ -19,7 +19,7 @@ var (
 var Db *sql.DB
 const (
     dbhost = "localhost"
-    dbport = "5433"
+    dbport = "5432"
     dbuser = "postgres"
     dbpass = "postgres"
     dbname = "go"
@@ -63,6 +63,7 @@ func createTables() {
 		userId		integer NOT NULL,
 		time  	 	varchar(80) NOT NULL,
 		place    	varchar(80) NOT NULL,
+		pending     boolean NOT NULL,
 		accepted    boolean,
 		reason		varchar(80),
 		price       int NOT NULL,
@@ -78,10 +79,11 @@ func createTables() {
 	eric := models.User{Firstname: "eric", Lastname : "li", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645"}
 	tony := models.User{Firstname: "tony", Lastname : "huang", Email : "tony@gmail.com", Password : "1234", Phone:"0522398645"}
 	momo := models.User{Firstname: "momo", Lastname : "bennis", Email : "momo@gmail.com", Password : "1234", Phone:"0522398645"}
-	tag1 := models.Tag{UserId: 1, Time : "06-0700", Place : "paris", Price : 14}
-	tag2 := models.Tag{UserId: 2, Time : "06-0700", Place : "creteil", Price : 15}
-	tag3 := models.Tag{UserId: 2, Time : "06-0700", Place : "italie", Price : 16}
-	tag4 := models.Tag{UserId: 2, Time : "06-0700", Place : "nice", Price : 17}
+
+	tag1 := models.Tag{UserId: 1, Time : "06-0700", Place : "paris", Price : 14, Pending: true}
+	tag2 := models.Tag{UserId: 2, Time : "06-0700", Place : "creteil", Price : 15, Pending: true}
+	tag3 := models.Tag{UserId: 2, Time : "06-0700", Place : "italie", Price : 16, Pending: false, Accepted: sql.NullBool{true, true}}
+	tag4 := models.Tag{UserId: 2, Time : "06-0700", Place : "lol", Price : 54, Pending: false, Accepted: sql.NullBool{false, true}}
 
 
 	defer createAccount(eric)
@@ -91,6 +93,10 @@ func createTables() {
 	defer createTag(tag2)
 	defer createTag(tag3)
 	defer createTag(tag4)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9e66a1db310d0d2f9648cc1461e0e5ed18bda576
 	fmt.Println("creation compte")
 }
 
@@ -109,11 +115,11 @@ RETURNING id`
 
 func createTag(tag models.Tag) {
 	sqlStatement := `
-INSERT INTO tags (userId, time, place, price)
-VALUES ($1, $2, $3, $4)
+INSERT INTO tags (userId, time, place, pending, price, accepted)
+VALUES ($1, $2, $3, $4, $5, $6)
 RETURNING id`
   id := 0
-  err := Db.QueryRow(sqlStatement, tag.UserId, tag.Time, tag.Place, tag.Price).Scan(&id)
+  err := Db.QueryRow(sqlStatement, tag.UserId, tag.Time, tag.Place, tag.Pending, tag.Price, tag.Accepted).Scan(&id)
   if err != nil {
     panic(err)
   }
