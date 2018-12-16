@@ -4,21 +4,51 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/revel/revel"
+	"github.com/revel/revel/cache"
 	"nlpf/app"
 	"nlpf/app/models"
 	"nlpf/app/routes"
+	"strconv"
+	"time"
 )
 
 type App struct {
 	*revel.Controller
 }
 
-func (c App) Login(message string) revel.Result {
-	return c.Render(message)
+func isAdmin(id int) bool {
+
+	row := app.Db.QueryRow("Select admin FROM users WHERE id=$1", id)
+	var admin bool
+
+	err := row.Scan(&admin)
+
+	if err != nil {
+		return true
+	}
+
+	return false
 }
 
-func (c App) Admin(uid string) revel.Result {
-	return c.Render(uid)
+func (c App) Login(message string) revel.Result {
+
+	var idStore int
+
+	if err := cache.Get("id", &idStore); err == nil {
+		fmt.Printf(strconv.Itoa(idStore) + " is the id")
+
+		if idStore != 0 {
+			if isAdmin(idStore) {
+				return c.Redirect(routes.Admin.Administration())
+			} else {
+				return c.Redirect(routes.Admin.Administration())
+			}
+		} else {
+			return c.Render(message)
+		}
+	} else {
+		return c.Render(message)
+	}
 }
 
 func (c App) User(uid string) revel.Result {
@@ -27,32 +57,31 @@ func (c App) User(uid string) revel.Result {
 
 func (c App) Auth(email string, password string) revel.Result {
 
-	row := app.Db.QueryRow("Select email, password, admin, uid FROM users WHERE email=$1 AND password=$2", email, password)
+	row := app.Db.QueryRow("Select email, password, admin, id FROM users WHERE email=$1 AND password=$2", email, password)
 
 	var message string
 	var admin bool
-	var uid string
+	var id int
 
-	switch err := row.Scan(&email, &password, &admin, &uid); err {
+	switch err := row.Scan(&email, &password, &admin, &id); err {
 	case sql.ErrNoRows:
 		message = "(Email ou mot de passe introuvable)"
 	case nil:
 		fmt.Println(email, password)
-		if (admin) {
-			fmt.Printf("is admin")
-			c.Redirect(routes.App.Admin(uid))
-		} else {
-			fmt.Printf("not admin")
-			c.Redirect(routes.App.User(uid))
-		}
 
-		c.Redirect("/")
+		go cache.Set("id", id, 30*time.Minute)
+
+		if admin {
+			fmt.Printf("is admin")
+			return c.Redirect(routes.Admin.Administration())
+		} else {
+			fmt.Printf("not admin ")
+			return c.Redirect(routes.Admin.Administration())
+		}
 	default:
 		message = "(Connexion impossible)"
 		panic(err)
 	}
-
-
 
 	return c.Redirect(routes.App.Login(message))
 }
