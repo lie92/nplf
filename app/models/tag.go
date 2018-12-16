@@ -1,13 +1,16 @@
 package models
 
-import "time"
+import "database/sql"
 
 type Tag struct {
-	UID       	int
+	Id       	int
 	UserId		int
-	Time  	 	time.Time
+	Time  	 	string
 	Place    	string
-	Accepted    bool
-	Reason		string
+	Accepted    sql.NullBool
+	Pending     bool
+	Reason		sql.NullString
 	Price		int
+	Phone		sql.NullString
+	Motif		sql.NullString
 }

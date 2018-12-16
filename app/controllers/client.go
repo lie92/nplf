@@ -1,11 +1,9 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/revel/revel"
 	"nlpf/app"
 	"nlpf/app/models"
-	"time"
 )
 
 func checkErr(err error) {
@@ -19,34 +17,43 @@ type Client struct {
 }
 
 func (c Client) Index() revel.Result {
+	sqlStatement := `SELECT * FROM tags WHERE userId=$1`
 
-	return c.Render()
+	rows, err := app.Db.Query(sqlStatement, 2)
+	checkErr(err)
+	var total = 0
+
+	var tags []models.Tag
+	for rows.Next() {
+		var tag models.Tag
+
+		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
+			&tag.Motif)
+		checkErr(err)
+		total += tag.Price
+		tags = append(tags, tag)
+	}
+
+	return c.Render(tags, total)
 }
 
 func (c Client) Facture() revel.Result {
 	sqlStatement := `SELECT * FROM tags WHERE userId=$1`
-	rows, err := app.Db.Query(sqlStatement, 1)
+
+	rows, err := app.Db.Query(sqlStatement, 2)
 	checkErr(err)
 	var total = 0
 
 	
 	var tags []models.Tag
 	for rows.Next() {
+		var tag models.Tag
 
-		var uid int
-		var userId int
-		var time time.Time
-		var place string
-		var accepter bool
-		var reason string
-		var price int
-
-		total += price
-		err = rows.Scan(&uid, &userId, &time, &place, &accepter, &reason, &price)
+		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
+			&tag.Motif)
 		checkErr(err)
-		fmt.Println("test")
-		tags = append(tags, models.Tag{uid, userId, time, place, accepter,
-			reason, price})
+		total += tag.Price
+		tags = append(tags, tag)
 	}
 
 	return c.Render(tags, total)
