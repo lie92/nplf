@@ -98,6 +98,18 @@ func (_ tTestRunner) List(
 }
 
 
+type tAdmin struct {}
+var Admin tAdmin
+
+
+func (_ tAdmin) Administration(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Admin.Administration", args).URL
+}
+
+
 type tApp struct {}
 var App tApp
 

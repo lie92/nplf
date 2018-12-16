@@ -20,6 +20,9 @@ GET     /client/facture                         Client.Facture
 GET     /client/demande                         Client.Demande
 
 
+#TONYADMIN
+
+GET     /admin                                  Admin.Administration
 
 
 # Ignore favicon requests
