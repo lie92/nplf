@@ -1,13 +1,13 @@
 package models
 
-import "time"
-
 type Tag struct {
-	UID       	int
+	id       	int
 	UserId		int
-	Time  	 	time.Time
+	Time  	 	string
 	Place    	string
 	Accepted    bool
 	Reason		string
 	Price		int
-}
+	Phone		string
+	Motif		string
+}	
