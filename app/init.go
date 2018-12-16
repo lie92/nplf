@@ -81,6 +81,7 @@ func createTables() {
 	tag1 := models.Tag{UserId: 1, Time : "06-0700", Place : "paris", Price : 14}
 	tag2 := models.Tag{UserId: 2, Time : "06-0700", Place : "creteil", Price : 15}
 	tag3 := models.Tag{UserId: 2, Time : "06-0700", Place : "italie", Price : 16}
+	tag4 := models.Tag{UserId: 2, Time : "06-0700", Place : "nice", Price : 17}
 
 
 	defer createAccount(eric)
@@ -89,6 +90,7 @@ func createTables() {
 	defer createTag(tag1)
 	defer createTag(tag2)
 	defer createTag(tag3)
+	defer createTag(tag4)
 	fmt.Println("creation compte")
 }
 
