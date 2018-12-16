@@ -1,10 +1,13 @@
 package models
 
+import "time"
+
 type Tag struct {
 	UID       	int
-	userId		int
-	Time  	 	string
+	UserId		int
+	Time  	 	time.Time
 	Place    	string
 	Accepted    bool
 	Reason		string
+	Price		int
 }

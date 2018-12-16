@@ -63,7 +63,8 @@ func createTables() {
 		time  	 	date,
 		place    	varchar(80) NOT NULL,
 		accepted    boolean,
-		reason		varchar(80) NOT NULL
+		reason		varchar(80) NOT NULL,
+		price       int NOT NULL
 	);`
 
 	_, err := Db.Exec(sqlStatement)
