@@ -13,6 +13,7 @@ import (
 	_ "nlpf/app"
 	controllers1 "nlpf/app/controllers"
 	tests "nlpf/tests"
+	time "time"
 	"github.com/revel/revel/testing"
 )
 
@@ -115,6 +116,22 @@ func Register() {
 			
 		})
 	
+	revel.RegisterController((*controllers1.Admin)(nil),
+		[]*revel.MethodType{
+			&revel.MethodType{
+				Name: "Administration",
+				Args: []*revel.MethodArg{ 
+					&revel.MethodArg{Name: "begin_date_input", Type: reflect.TypeOf((*time.Time)(nil)) },
+					&revel.MethodArg{Name: "end_date_input", Type: reflect.TypeOf((*time.Time)(nil)) },
+				},
+				RenderArgNames: map[int][]string{ 
+					40: []string{ 
+					},
+				},
+			},
+			
+		})
+	
 	revel.RegisterController((*controllers1.App)(nil),
 		[]*revel.MethodType{
 			&revel.MethodType{
@@ -190,6 +207,10 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
+					37: []string{ 
+						"tags",
+						"total",
+					},
 				},
 			},
 			&revel.MethodType{
@@ -197,6 +218,10 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
+					59: []string{ 
+						"tags",
+						"total",
+					},
 				},
 			},
 			&revel.MethodType{
@@ -204,7 +229,7 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					27: []string{ 
+					64: []string{ 
 					},
 				},
 			},

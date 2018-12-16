@@ -103,9 +103,13 @@ var Admin tAdmin
 
 
 func (_ tAdmin) Administration(
+		begin_date_input interface{},
+		end_date_input interface{},
 		) string {
 	args := make(map[string]string)
 	
+	revel.Unbind(args, "begin_date_input", begin_date_input)
+	revel.Unbind(args, "end_date_input", end_date_input)
 	return revel.MainRouter.Reverse("Admin.Administration", args).URL
 }
 
