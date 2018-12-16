@@ -1,11 +1,14 @@
 package models
 
-import "database/sql"
+import (
+	"database/sql"
+	"time"
+)
 
 type Tag struct {
 	Id       	int
 	UserId		int
-	Time  	 	string
+	Time  	 	time.Time
 	Place    	string
 	Accepted    sql.NullBool
 	Pending     bool

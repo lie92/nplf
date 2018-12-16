@@ -6,7 +6,7 @@ import (
 	_ "github.com/lib/pq"
 	"fmt"
 	"nlpf/app/models"
-
+	"time"
 )
 
 var (
@@ -19,7 +19,7 @@ var (
 var Db *sql.DB
 const (
     dbhost = "localhost"
-    dbport = "5432"
+    dbport = "5433"
     dbuser = "postgres"
     dbpass = "postgres"
     dbname = "go"
@@ -61,7 +61,7 @@ func createTables() {
 	CREATE TABLE tags (
 		id       	SERIAL PRIMARY KEY,
 		userId		integer NOT NULL,
-		time  	 	varchar(80) NOT NULL,
+		time  	 	Date,
 		place    	varchar(80) NOT NULL,
 		pending     boolean NOT NULL,
 		accepted    boolean,
@@ -76,14 +76,17 @@ func createTables() {
   		panic(err)
 	}
 
+	const longForm = "Jan 2, 2006 at 3:04pm (MST)"
+	t, _ := time.Parse(longForm, "Feb 3, 2013 at 7:54pm (PST)")
+
 	eric := models.User{Firstname: "eric", Lastname : "li", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645"}
 	tony := models.User{Firstname: "tony", Lastname : "huang", Email : "tony@gmail.com", Password : "1234", Phone:"0522398645"}
 	momo := models.User{Firstname: "momo", Lastname : "bennis", Email : "momo@gmail.com", Password : "1234", Phone:"0522398645"}
 
-	tag1 := models.Tag{UserId: 1, Time : "06-0700", Place : "paris", Price : 14, Pending: true}
-	tag2 := models.Tag{UserId: 2, Time : "06-0700", Place : "creteil", Price : 15, Pending: true}
-	tag3 := models.Tag{UserId: 2, Time : "06-0700", Place : "italie", Price : 16, Pending: false, Accepted: sql.NullBool{true, true}}
-	tag4 := models.Tag{UserId: 2, Time : "06-0700", Place : "lol", Price : 54, Pending: false, Accepted: sql.NullBool{false, true}}
+	tag1 := models.Tag{UserId: 1, Time : t, Place : "paris", Price : 14, Pending: true}
+	tag2 := models.Tag{UserId: 2, Time : t, Place : "creteil", Price : 15, Pending: true}
+	tag3 := models.Tag{UserId: 2, Time : t, Place : "italie", Price : 16, Pending: false, Accepted: sql.NullBool{true, true}}
+	tag4 := models.Tag{UserId: 2, Time : t, Place : "lol", Price : 54, Pending: false, Accepted: sql.NullBool{false, true}}
 
 
 	defer createAccount(eric)
@@ -93,10 +96,6 @@ func createTables() {
 	defer createTag(tag2)
 	defer createTag(tag3)
 	defer createTag(tag4)
-<<<<<<< HEAD
-=======
-
->>>>>>> 9e66a1db310d0d2f9648cc1461e0e5ed18bda576
 	fmt.Println("creation compte")
 }
 
