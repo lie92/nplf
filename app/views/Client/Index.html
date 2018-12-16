@@ -31,7 +31,7 @@
                 Addresse
             </div>
             <div class="col-lg-2 h4" style="text-align: left">
-                Supprimer
+                Supprimmer
             </div>
             <div class="col-lg-2 h4" style="text-align: left">
                 Status
@@ -48,14 +48,18 @@
 
                 </div>
                 <div class="col-lg-2" style="text-align: left;font-weight: 500">
-                    {{.Time}}
+                    {{.Time.Day}} {{.Time.Month}} {{.Time.Year}}
+                    {{if gt .Time.Hour 9 }}
+                        {{.Time.Hour}}:{{else}}
+                        0{{.Time.Hour}}:{{end}}{{if gt .Time.Hour 9 }}{{.Time.Minute}}{{else}}0{{.Time.Minute}}{{end}}
                 </div>
                 <div class="col-lg-2" style="text-align: left;font-weight: 500">
                     {{.Place}}
                 </div>
                 <div class="col-lg-2" style="text-align: left;font-weight: 500">
-                    Supprimer
-                </div>
+                    <a href="{{url "Client.DeleteDemande" .Id}}" class="text-center">
+                        Supprimer
+                    </a>                </div>
                 <div class="col-lg-2" style="text-align: left;font-weight: 500">
                     {{if .Pending}}
                         En attente
@@ -74,17 +78,7 @@
         {{end}}
         </tbody>
     </table>
-    <div class="row">
-        <div class="col-lg-3">
 
-        </div>
-        <div class="col-lg-6" style="text-align: right;font-weight: 500">
-            Total: {{.total}}€
-        </div>
-        <div class="col-lg-3">
-
-        </div>
-    </div>
 {{else}}
     <p>
         Aucune action prévus.
@@ -95,7 +89,11 @@
 
     </div>
     <div class="col-lg-6" style="text-align: center;font-weight: 500">
-        Ajouter
+        <div class="form-group text-center">
+            <a href="{{url "Client.Demande"}}" class="text-center">
+                Ajouter
+            </a>
+        </div>
     </div>
     <div class="col-lg-3">
     </div>

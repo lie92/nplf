@@ -1,9 +1,12 @@
 package controllers
 
 import (
+	"database/sql"
 	"github.com/revel/revel"
 	"nlpf/app"
 	"nlpf/app/models"
+	"nlpf/app/routes"
+	"time"
 )
 
 func checkErr(err error) {
@@ -59,7 +62,40 @@ func (c Client) Facture() revel.Result {
 	return c.Render(tags, total)
 }
 
-func (c Client) Demande() revel.Result {
+func (c Client) ProcessDemande(address, date, hour, motif, phone string) revel.Result {
+	booking := date + " " + hour
 
-	return c.Render()
+	sqlStatement := `INSERT INTO tags (userId, time, place, pending, price, accepted, motif, phone)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+		RETURNING id`
+
+	var id int
+	err := app.Db.QueryRow(sqlStatement, 2, booking, address, true, 20, sql.NullBool{false, false},
+		phone, motif).Scan(&id)
+	if err != nil {
+		panic(err)
+	}
+
+	return c.Redirect(routes.Client.Index())
+	}
+
+func (c Client) DeleteDemande(id int) revel.Result {
+
+	sqlStatement := `DELETE FROM tags WHERE id = $1`
+
+	_, err := app.Db.Exec(sqlStatement, id)
+	if err != nil {
+		panic(err)
+	}
+
+	return c.Redirect(routes.Client.Index())
+}
+
+func (c Client) Demande() revel.Result {
+	today := time.Now()
+
+	y := today.Year()
+	var m int = int (today.Month())
+	d := today.Day()
+	return c.Render(y, m, d)
 }

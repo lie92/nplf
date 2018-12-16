@@ -1,19 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<form>
-    Nom:<br>
-    <input type="text" name="firstname"><br>
-    Prénom:<br>
-    <input type="text" name="lastname"><br>
-    Adresse:<br>
-    <input type="text" name="adress"><br>
-    Date:<br>
-    <input type="date" name="date"><br>
+{{set . "title" "Demande"}}
+{{template "header.html" .}}
+<form action="{{url "Client.Demande"}}" method="post">
+
+    <div class="form-group">
+        <label for="address">Addresse</label>
+
+        <input class="form-control" id="address" name="address" required type="text" value="">
+    </div>
+    <div class="form-group">
+
+         <label for="date">Date</label>
+        <input id="date" name="date" required type="date" value="{{.y}}-{{.m}}-{{.d}}" min="{{.y}}-{{.m}}-{{.d}}">
+    </div>
+    <div class="form-group">
+        <label for="time">Heure</label>
+        <input required type="time" id="hour" name="hour" min="9:00" max="18:00">
+        <span class="note">Office hours are 9am to 6pm</span>
+    </div>
+
+    <div class="form-group">
+    <label for="phone">Téléphone</label>
+        <input required type="text" id="phone" name="phone">
+    </div>
+
+
+    <div class="form-group no-margin">
+        <button type="submit" class="btn btn-primary btn-block">
+            Enregistrer
+        </button>
+    </div>
+
+    <br>
+
+    <div class="form-group text-center">
+        <a href="{{url "Client.Index"}}" class="text-center">
+            Retour
+        </a>
+    </div>
+
+
 </form>
-</body>
-</html>
+
+{{template "footer.html" .}}

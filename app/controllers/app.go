@@ -77,9 +77,9 @@ func (c App) SignIn(nom string, prenom string, email string, password string, ph
 
 func CreateAccount(user models.User) {
 	sqlStatement := `
-INSERT INTO users (firstname, lastname, email, password, admin, phone)
-VALUES ($1, $2, $3, $4, false, $5)
-RETURNING id`
+		INSERT INTO users (firstname, lastname, email, password, admin, phone)
+		VALUES ($1, $2, $3, $4, false, $5)
+		RETURNING id`
 	id := 0
 	err := app.Db.QueryRow(sqlStatement, user.Firstname, user.Lastname, user.Email, user.Password, user.Phone).Scan(&id)
 	if err != nil {

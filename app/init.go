@@ -19,7 +19,7 @@ var (
 var Db *sql.DB
 const (
     dbhost = "localhost"
-    dbport = "5433"
+    dbport = "5432"
     dbuser = "postgres"
     dbpass = "postgres"
     dbname = "go"
