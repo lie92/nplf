@@ -39,9 +39,13 @@ func (c App) Login(message string) revel.Result {
 
 		if idStore != 0 {
 			if isAdmin(idStore) {
-				return c.Redirect(routes.Admin.Administration())
+				const longForm = "Jan 2, 2006 at 3:04pm (MST)"
+				t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
+				return c.Redirect(routes.Admin.Administration(t, t))
 			} else {
-				return c.Redirect(routes.Admin.Administration())
+				const longForm = "Jan 2, 2006 at 3:04pm (MST)"
+				t, _ := time.Parse(longForm, "Dec 29, 2020 at 7:54pm (PST)")
+				return c.Redirect(routes.Admin.Administration(t, t))
 			}
 		} else {
 			return c.Render(message)
@@ -73,10 +77,14 @@ func (c App) Auth(email string, password string) revel.Result {
 
 		if admin {
 			fmt.Printf("is admin")
-			return c.Redirect(routes.Admin.Administration())
+			const longForm = "Jan 2, 2006 at 3:04pm (MST)"
+			t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
+			return c.Redirect(routes.Admin.Administration(t, t))
 		} else {
 			fmt.Printf("not admin ")
-			return c.Redirect(routes.Admin.Administration())
+			const longForm = "Jan 2, 2006 at 3:04pm (MST)"
+			t, _ := time.Parse(longForm, "Dec 29, 2020 at 7:54pm (PST)")
+			return c.Redirect(routes.Admin.Administration(t, t))
 		}
 	default:
 		message = "(Connexion impossible)"

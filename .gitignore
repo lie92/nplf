@@ -1,1 +1,4 @@
 test-results/
+.idea/
+app/tmp/
+app/routes
