@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/revel/revel"
 	"nlpf/app"
@@ -12,14 +13,48 @@ type App struct {
 	*revel.Controller
 }
 
-func (c App) Auth(email string, password string) revel.Result {
-
-	return c.Render()
-}
-
-
 func (c App) Login(message string) revel.Result {
 	return c.Render(message)
+}
+
+func (c App) Admin(uid string) revel.Result {
+	return c.Render(uid)
+}
+
+func (c App) User(uid string) revel.Result {
+	return c.Render(uid)
+}
+
+func (c App) Auth(email string, password string) revel.Result {
+
+	row := app.Db.QueryRow("Select email, password, admin, uid FROM users WHERE email=$1 AND password=$2", email, password)
+
+	var message string
+	var admin bool
+	var uid string
+
+	switch err := row.Scan(&email, &password, &admin, &uid); err {
+	case sql.ErrNoRows:
+		message = "(Email ou mot de passe introuvable)"
+	case nil:
+		fmt.Println(email, password)
+		if (admin) {
+			fmt.Printf("is admin")
+			c.Redirect(routes.App.Admin(uid))
+		} else {
+			fmt.Printf("not admin")
+			c.Redirect(routes.App.User(uid))
+		}
+
+		c.Redirect("/")
+	default:
+		message = "(Connexion impossible)"
+		panic(err)
+	}
+
+
+
+	return c.Redirect(routes.App.Login(message))
 }
 
 func (c App) Inscription() revel.Result {
@@ -51,8 +86,4 @@ RETURNING id`
 		panic(err)
 	}
 	fmt.Println("New record ID is:", id)
-}
-
-func AuthAccount(email string, password string) {
-
 }

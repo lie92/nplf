@@ -13,6 +13,8 @@ GET     /Inscription                           App.Inscription
 
 POST    /SignIn                                App.SignIn
 
+POST     /Auth                                 APP.Auth
+
 GET     /client                                 Client.Index
 
 GET     /client/facture                         Client.Facture
