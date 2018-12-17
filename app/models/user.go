@@ -5,7 +5,7 @@ type User struct {
 	Lastname    string
 	Email	    string
 	Password	string
-	admin 		bool
+	Admin 		bool
 	UID       	int
 	Phone		string
 
