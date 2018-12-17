@@ -20,6 +20,11 @@ type Client struct {
 }
 
 func (c Client) Index() revel.Result {
+
+	var message string
+
+	if isAuth() && !isAdmin() {
+
 	sqlStatement := `SELECT * FROM tags WHERE userId=$1`
 
 	rows, err := app.Db.Query(sqlStatement, 2)
@@ -37,7 +42,10 @@ func (c Client) Index() revel.Result {
 		tags = append(tags, tag)
 	}
 
-	return c.Render(tags, total)
+	return c.Render(tags, total)} else {
+		message = "(Vous n'avez pas les authorisations)"
+		return c.Redirect(routes.App.Login(message))
+	}
 }
 
 func (c Client) Facture() revel.Result {

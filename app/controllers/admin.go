@@ -3,11 +3,9 @@ package controllers
 import (
 	"fmt"
 	"github.com/revel/revel"
-	"github.com/revel/revel/cache"
 	"nlpf/app"
 	"nlpf/app/models"
 	"nlpf/app/routes"
-	"strconv"
 	"time"
 )
 
@@ -15,30 +13,11 @@ type Admin struct {
 	*revel.Controller
 }
 
-func isAuth() bool {
-
-	var idStore int
-
-	if err := cache.Get("id", &idStore); err == nil {
-		fmt.Printf(strconv.Itoa(idStore) + " is the id")
-
-		if idStore != 0 {
-			return true
-		} else {
-			return false
-		}
-	} else {
-		return false
-	}
-
-	return true
-}
-
 func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Time) revel.Result {
 
 	var message string
 
-	if isAuth() {
+	if isAuth() && isAdmin() {
 		sqlStatement := `SELECT * FROM tags` /*WHERE time>$1`*/
 
 		rows, err := app.Db.Query(sqlStatement) //, time.Now)

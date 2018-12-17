@@ -16,21 +16,22 @@ type App struct {
 	*revel.Controller
 }
 
-func isAdmin(id int) bool {
+func isAdmin() bool {
 
-	row := app.Db.QueryRow("Select admin FROM users WHERE id=$1", id)
-	var admin bool
+	var isdAmin bool
 
-	err := row.Scan(&admin)
-
-	if err != nil {
-		return true
+	if err := cache.Get("admin", &isdAmin); err == nil {
+		if isdAmin {
+			return true
+		} else {
+			return false
+		}
 	}
 
 	return false
 }
 
-func (c App) Login(message string) revel.Result {
+func isAuth() bool {
 
 	var idStore int
 
@@ -38,18 +39,33 @@ func (c App) Login(message string) revel.Result {
 		fmt.Printf(strconv.Itoa(idStore) + " is the id")
 
 		if idStore != 0 {
-			if isAdmin(idStore) {
-				const longForm = "Jan 2, 2006 at 3:04pm (MST)"
-				t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
-				return c.Redirect(routes.Admin.Administration(t, t))
-			} else {
-				const longForm = "Jan 2, 2006 at 3:04pm (MST)"
-				t, _ := time.Parse(longForm, "Dec 29, 2020 at 7:54pm (PST)")
-				return c.Redirect(routes.Admin.Administration(t, t))
-			}
+			return true
 		} else {
-			return c.Render(message)
+			return false
 		}
+	} else {
+		return false
+	}
+}
+
+func (c App) LogOut() revel.Result {
+	go cache.Delete("id")
+	go cache.Delete("admin")
+	return c.Redirect("/")
+}
+
+func (c App) Login(message string) revel.Result {
+
+	if isAuth() {
+
+		if isAdmin() {
+			const longForm = "Jan 2, 2006 at 3:04pm (MST)"
+			t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
+			return c.Redirect(routes.Admin.Administration(t, t))
+		} else {
+			return c.Redirect(routes.Client.Index())
+		}
+
 	} else {
 		return c.Render(message)
 	}
@@ -77,15 +93,16 @@ func (c App) Auth(email string, password string) revel.Result {
 
 		if admin {
 			fmt.Printf("is admin")
+			go cache.Set("admin", true, 30*time.Minute)
 			const longForm = "Jan 2, 2006 at 3:04pm (MST)"
 			t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
 			return c.Redirect(routes.Admin.Administration(t, t))
 		} else {
+			go cache.Set("admin", false, 30*time.Minute)
 			fmt.Printf("not admin ")
-			const longForm = "Jan 2, 2006 at 3:04pm (MST)"
-			t, _ := time.Parse(longForm, "Dec 29, 2020 at 7:54pm (PST)")
-			return c.Redirect(routes.Admin.Administration(t, t))
+			return c.Redirect(routes.Client.Index())
 		}
+
 	default:
 		message = "(Connexion impossible)"
 		panic(err)
@@ -100,23 +117,16 @@ func (c App) Inscription() revel.Result {
 
 func (c App) SignIn(nom string, prenom string, email string, password string, phone string) revel.Result {
 
-	c.Validation.MinSize(nom, 8).Message("Your name is not long enough!")
-
-	c.Flash.Success("Welcome, " + nom)
-
-	eric := models.User{Firstname: prenom, Lastname: nom, Email: password, Password: "1234", Phone: phone}
+	eric := models.User{Firstname: prenom, Lastname: nom, Email: email, Password: password, Phone: phone}
 	CreateAccount(eric)
-
 	message := "(Inscription réussie)"
 
 	return c.Redirect(routes.App.Login(message))
 }
 
 func CreateAccount(user models.User) {
-	sqlStatement := `
-		INSERT INTO users (firstname, lastname, email, password, admin, phone)
-		VALUES ($1, $2, $3, $4, false, $5)
-		RETURNING id`
+	sqlStatement := `INSERT INTO users (firstname, lastname, email, password, admin, phone)
+VALUES ($1, $2, $3, $4, true, $5) RETURNING id`
 	id := 0
 	err := app.Db.QueryRow(sqlStatement, user.Firstname, user.Lastname, user.Email, user.Password, user.Phone).Scan(&id)
 	if err != nil {
