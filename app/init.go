@@ -18,7 +18,7 @@ var (
 )
 var Db *sql.DB
 const (
-    dbhost = "goo.c1gwacbfqz1w.us-east-2.rds.amazonaws.com"
+    dbhost = "go.cikn3q6gw0oj.eu-west-3.rds.amazonaws.com"
     dbport = "5433"
     dbuser = "postgres"
     dbpass = "postgres"
