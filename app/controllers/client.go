@@ -21,7 +21,6 @@ type Client struct {
 
 func (c Client) Index() revel.Result {
 
-	var message string
 
 	if isAuth() && !isAdmin() {
 
@@ -43,8 +42,7 @@ func (c Client) Index() revel.Result {
 	}
 
 	return c.Render(tags, total)} else {
-		message = "(Vous n'avez pas les authorisations)"
-		return c.Redirect(routes.App.Login(message))
+		return c.Redirect(routes.App.HTTP403())
 	}
 }
 

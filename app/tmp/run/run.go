@@ -125,7 +125,7 @@ func Register() {
 					&revel.MethodArg{Name: "end_date_input", Type: reflect.TypeOf((*time.Time)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					40: []string{ 
+					45: []string{ 
 					},
 				},
 			},
@@ -135,24 +135,20 @@ func Register() {
 	revel.RegisterController((*controllers1.App)(nil),
 		[]*revel.MethodType{
 			&revel.MethodType{
+				Name: "LogOut",
+				Args: []*revel.MethodArg{ 
+				},
+				RenderArgNames: map[int][]string{ 
+				},
+			},
+			&revel.MethodType{
 				Name: "Login",
 				Args: []*revel.MethodArg{ 
 					&revel.MethodArg{Name: "message", Type: reflect.TypeOf((*string)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					17: []string{ 
+					70: []string{ 
 						"message",
-					},
-				},
-			},
-			&revel.MethodType{
-				Name: "Admin",
-				Args: []*revel.MethodArg{ 
-					&revel.MethodArg{Name: "uid", Type: reflect.TypeOf((*string)(nil)) },
-				},
-				RenderArgNames: map[int][]string{ 
-					21: []string{ 
-						"uid",
 					},
 				},
 			},
@@ -162,7 +158,7 @@ func Register() {
 					&revel.MethodArg{Name: "uid", Type: reflect.TypeOf((*string)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					25: []string{ 
+					75: []string{ 
 						"uid",
 					},
 				},
@@ -181,7 +177,7 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					61: []string{ 
+					115: []string{ 
 					},
 				},
 			},
@@ -197,6 +193,15 @@ func Register() {
 				RenderArgNames: map[int][]string{ 
 				},
 			},
+			&revel.MethodType{
+				Name: "HTTP403",
+				Args: []*revel.MethodArg{ 
+				},
+				RenderArgNames: map[int][]string{ 
+					139: []string{ 
+					},
+				},
+			},
 			
 		})
 	
@@ -207,7 +212,7 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					37: []string{ 
+					44: []string{ 
 						"tags",
 						"total",
 					},
@@ -218,10 +223,30 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					59: []string{ 
+					68: []string{ 
 						"tags",
 						"total",
 					},
+				},
+			},
+			&revel.MethodType{
+				Name: "ProcessDemande",
+				Args: []*revel.MethodArg{ 
+					&revel.MethodArg{Name: "address", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "date", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "hour", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "motif", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "phone", Type: reflect.TypeOf((*string)(nil)) },
+				},
+				RenderArgNames: map[int][]string{ 
+				},
+			},
+			&revel.MethodType{
+				Name: "DeleteDemande",
+				Args: []*revel.MethodArg{ 
+					&revel.MethodArg{Name: "id", Type: reflect.TypeOf((*int)(nil)) },
+				},
+				RenderArgNames: map[int][]string{ 
 				},
 			},
 			&revel.MethodType{
@@ -229,7 +254,10 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					64: []string{ 
+					106: []string{ 
+						"y",
+						"m",
+						"d",
 					},
 				},
 			},
@@ -237,9 +265,6 @@ func Register() {
 		})
 	
 	revel.DefaultValidationKeys = map[string]map[int]string{ 
-		"nlpf/app/controllers.App.SignIn": { 
-			66: "nom",
-		},
 	}
 	testing.TestSuites = []interface{}{ 
 		(*tests.AppTest)(nil),

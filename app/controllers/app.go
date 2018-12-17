@@ -134,3 +134,7 @@ VALUES ($1, $2, $3, $4, true, $5) RETURNING id`
 	}
 	fmt.Println("New record ID is:", id)
 }
+
+func (c App) HTTP403() revel.Result {
+	return c.Render()
+}

@@ -15,7 +15,7 @@ type Admin struct {
 
 func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Time) revel.Result {
 
-	var message string
+
 
 	if isAuth() && isAdmin() {
 		sqlStatement := `SELECT * FROM tags` /*WHERE time>$1`*/
@@ -45,8 +45,7 @@ func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Ti
 		return c.Render()
 
 	} else {
-		message = "(Vous n'avez pas les authorisations)"
-		return c.Redirect(routes.App.Login(message))
+		return c.Redirect(routes.App.HTTP403())
 	}
 }
 

@@ -118,6 +118,13 @@ type tApp struct {}
 var App tApp
 
 
+func (_ tApp) LogOut(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("App.LogOut", args).URL
+}
+
 func (_ tApp) Login(
 		message string,
 		) string {
@@ -125,15 +132,6 @@ func (_ tApp) Login(
 	
 	revel.Unbind(args, "message", message)
 	return revel.MainRouter.Reverse("App.Login", args).URL
-}
-
-func (_ tApp) Admin(
-		uid string,
-		) string {
-	args := make(map[string]string)
-	
-	revel.Unbind(args, "uid", uid)
-	return revel.MainRouter.Reverse("App.Admin", args).URL
 }
 
 func (_ tApp) User(
@@ -178,6 +176,13 @@ func (_ tApp) SignIn(
 	revel.Unbind(args, "password", password)
 	revel.Unbind(args, "phone", phone)
 	return revel.MainRouter.Reverse("App.SignIn", args).URL
+}
+
+func (_ tApp) HTTP403(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("App.HTTP403", args).URL
 }
 
 

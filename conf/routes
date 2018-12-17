@@ -25,6 +25,9 @@ POST    /client/demande                         Client.ProcessDemande
 
 GET    /client/delete                          Client.DeleteDemande
 
+GET    /Logout                                  App.LogOut
+
+GET     /403                                    App.HTTP403
 
 
 #TONYADMIN
