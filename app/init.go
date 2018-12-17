@@ -18,11 +18,11 @@ var (
 )
 var Db *sql.DB
 const (
-    dbhost = "localhost"
-    dbport = "5432"
+    dbhost = "goo.c1gwacbfqz1w.us-east-2.rds.amazonaws.com"
+    dbport = "5433"
     dbuser = "postgres"
     dbpass = "postgres"
-    dbname = "go"
+    dbname = "golang"
 )
 
 func InitDB() {
