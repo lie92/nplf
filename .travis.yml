@@ -1,0 +1,9 @@
+language: go
+
+go:
+  - 1.11.2
+
+before_script: go install github.com/lie92/nlpf
+script: 
+  - $HOME/gopath/bin/revel run github.com/lie92/nlpf 
+  - $HOME/gopath/bin/revel test github.com/lie92/nlpf
