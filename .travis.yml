@@ -14,6 +14,8 @@ branches:
 
 install:
   # Setting environments variables
+  - git clone -b $REVEL_BRANCH git://github.com/revel/revel ../revel/
+  - git clone -b $REVEL_BRANCH git://github.com/revel/cmd ../cmd/
   - go get github.com/revel/revel
   - go get github.com/revel/cmd/revel
 script:
@@ -22,6 +24,6 @@ script:
   # https://wiki.mozilla.org/Identity/Persona_Shutdown_Guidelines_for_Reliers
   # - revel test github.com/revel/examples/persona
   # Build & run the sample apps
-  - cd ../..
+  - export PATH=$PATH:$HOME/gopath/bin
   - ls -l 
-  - revel test lie92/nplf
+  - revel test github.com/lie92/nplf
