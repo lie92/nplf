@@ -14,7 +14,8 @@ branches:
 
 install:
   # Setting environments variables
-  - export PATH=$PATH:$HOME/gopath/bin
+  - export PATH=$PATH:$HOME/gopath/src
+  - mv nlpf PATH
   - go get github.com/revel/revel/
   - go get github.com/revel/cmd/revel
 
