@@ -14,8 +14,6 @@ branches:
 
 install:
   # Setting environments variables
-  - export PATH=$PATH:$HOME/gopath/src
-  - mv nlpf PATH
   - go get github.com/revel/revel/
   - go get github.com/revel/cmd/revel
 
@@ -25,4 +23,4 @@ script:
   # https://wiki.mozilla.org/Identity/Persona_Shutdown_Guidelines_for_Reliers
   # - revel test github.com/revel/examples/persona
   # Build & run the sample apps
-  - revel test nplf
+  - revel test github.com/lie92/nplf
