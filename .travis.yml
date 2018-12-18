@@ -14,9 +14,8 @@ branches:
 
 install:
   # Setting environments variables
-  - go get github.com/revel/revel/
+  - go get github.com/revel/revel
   - go get github.com/revel/cmd/revel
-
 script:
   # Commented out persona test sample, since persona.org gonna be shutdown.
   # Also http://personatestuser.org becomes non-responsive most of the time.
