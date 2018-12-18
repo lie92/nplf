@@ -22,5 +22,5 @@ script:
   # https://wiki.mozilla.org/Identity/Persona_Shutdown_Guidelines_for_Reliers
   # - revel test github.com/revel/examples/persona
   # Build & run the sample apps
-  - ls -l github.com/lie92/nplf
+  - ls -l 
   - revel test github.com/lie92/nplf
