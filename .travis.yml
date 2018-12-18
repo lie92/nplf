@@ -24,4 +24,4 @@ script:
   # Build & run the sample apps
   - cd ../..
   - ls -l 
-  - revel test github.com/lie92/nplf
+  - revel test lie92/nplf
