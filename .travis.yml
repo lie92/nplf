@@ -14,8 +14,6 @@ branches:
 
 install:
   # Setting environments variables
-  - git clone -b $REVEL_BRANCH git://github.com/revel/revel ../revel/
-  - git clone -b $REVEL_BRANCH git://github.com/revel/cmd ../cmd/
   - go get github.com/revel/revel
   - go get github.com/revel/cmd/revel
 script:
