@@ -24,18 +24,9 @@ script:
   # Build & run the sample apps
   - cd ../
   - pwd
+  - mv nlpf ../../
+  - cd ../../../
+  - ls src/
   - ls -l
-  - cd ../
-  - pwd
-  - ls -l
-  - cd ../
-  - pwd
-  - ls -l
-  - cd ../
-  - pwd
-  - ls -l
-  - cd ../
-  - pwd
-  - ls -l 
-  - revel run github.com/lie92/nlpf
-  - revel test github.com/lie92/nplf
+  - revel run nlpf
+  - revel test nplf
