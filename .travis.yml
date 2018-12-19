@@ -25,5 +25,9 @@ script:
   # Build & run the sample apps
   - export PATH=$PATH:$HOME/gopath/bin
   - ls -l 
+  - cd ../
+  - ls -l
+  - cd ..
+  - ls -l
   - revel run nlpf
   - revel test github.com/lie92/nplf
