@@ -8,6 +8,6 @@ type User struct {
 	Admin 		bool
 	UID       	int
 	Phone		string
-
+	Blacklist	bool
 	//sql.nullstring
 }

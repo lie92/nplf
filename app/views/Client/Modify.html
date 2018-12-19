@@ -12,38 +12,43 @@
             <div class="card-wrapper">
                 <div class="card fat">
                     <div class="card-body">
-                        <h4 class="card-title">Nouvelle demande</h4>
-                        <form action="{{url "Client.ProcessDemande"}}" method="post" enctype="multipart/form-data">
+                        <h4 class="card-title">Modifier demande</h4>
+                        <form action="{{url "Client.ModifyDemande"}}" method="post">
 
                             <div class="form-group">
-                                <label for="address">Adresse</label>
-                                <input id="address" name="address" class="form-control" required type="text">
+                                <label for="address">Addresse</label>
+
+                                <input class="form-control" id="address" name="address" required type="text" value="{{.tag.Place}}">
                             </div>
+
                             <div class="form-group">
-                            <SELECT name="orientation" size="1">
-                                <OPTION>Nord
-                                <OPTION>Nord-Est
-                                <OPTION>Est
-                                <OPTION>Sud-Est
-                                <OPTION>Sud
-                                <OPTION>Sud-Ouest
-                                <OPTION>Ouest
-                                <OPTION>Nord-Ouest
-                            </SELECT>
+                                <SELECT name="orientation" size="1">
+                                    <OPTION>Nord
+                                    <OPTION>Nord-Est
+                                    <OPTION>Est
+                                    <OPTION>Sud-Est
+                                    <OPTION>Sud
+                                    <OPTION>Sud-Ouest
+                                    <OPTION>Ouest
+                                    <OPTION>Nord-Ouest
+                                </SELECT>
                             </div>
+
                             <div class="form-group">
                                 <label for="phone">Téléphone</label>
-                                <input class="form-control" required type="text" id="phone" name="phone">
-                            </div>
-                            <div class="form-group">
-                                <label for="motif">Motif</label>
-                                <input class="form-control" required type="text" id="motif" name="motif"
-                                       value="{{.tag.motif}}">
+                                <input class="form-control" required type="text" id="phone" name="phone" value="{{.tag.Phone}}">
+
                             </div>
 
                             <div class="form-group">
-                                <input type="file" required name="pic" accept="image/*">
+                                <label for="phone">Motif</label>
+                                <input class="form-control" required type="text" id="motif" name="motif" value="{{.tag.Motif}}">
                             </div>
+
+                            <div class="form-group">
+                            <input class="form-control" required type="text" id="id" name="id" value="{{.tag.Id}}" style="display: none">
+                            </div>
+
                             <div class="form-group no-margin">
                                 <button type="submit" class="btn btn-primary btn-block">
                                     Enregistrer

@@ -16,6 +16,7 @@ var (
 	BuildTime string
 )
 var Db *sql.DB
+// this is using rds change dbhost to localhost and dbname to go if error
 const (
     dbhost = "go.cikn3q6gw0oj.eu-west-3.rds.amazonaws.com"
     dbport = "5433"
@@ -57,19 +58,22 @@ func createTables() {
 		email	    varchar(40) NOT NULL,
 		password	varchar(40) NOT NULL,
 		admin 		boolean,
-		phone		varchar(40) NOT NULL
+		phone		varchar(40) NOT NULL,
+		blacklist	boolean
 	);
 	CREATE TABLE tags (
 		id       	SERIAL PRIMARY KEY,
 		userId		integer NOT NULL,
-		time  	 	Date,
+		time  	 	timestamp,
 		place    	varchar(80) NOT NULL,
 		pending     boolean NOT NULL,
 		accepted    boolean,
 		reason		varchar(80),
-		price       int NOT NULL,
-		phone		varchar(80),
-		motif		varchar(80)
+		price       int,
+		phone		varchar(80) NOT NULL,
+		motif		varchar(80) NOT NULL,
+  		orientation	varchar(80) NOT NULL
+
 	);`
 
 	_, err := Db.Exec(sqlStatement)
@@ -77,36 +81,26 @@ func createTables() {
   		panic(err)
 	}
 
-	eric := models.User{Firstname: "eric", Lastname : "li", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645", Admin : true}
-	tony := models.User{Firstname: "tony", Lastname : "huang", Email : "tony@gmail.com", Password : "1234", Phone:"0522398645", Admin: false}
+
+	eric := models.User{Firstname: "eric", Lastname : "li", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645", Admin : true, Blacklist: false}
+	tony := models.User{Firstname: "tony", Lastname : "huang", Email : "tony@gmail.com", Password : "1234", Phone:"0522398645", Admin: false, Blacklist: false}
+	momo := models.User{Firstname: "momo", Lastname : "bennis", Email : "mohamed.bennis@epita.fr", Password : "1234", Phone:"0522398645", Admin: false, Blacklist: false}
 
 
 	defer createAccount(eric)
 	defer createAccount(tony)
+	defer createAccount(momo)
 
 	fmt.Println("creation compte")
 }
 
 func createAccount(user models.User) {
 	sqlStatement := `
-INSERT INTO users (firstname, lastname, email, password, admin, phone)
-VALUES ($1, $2, $3, $4, $6, $5)
+INSERT INTO users (firstname, lastname, email, password, admin, phone, blacklist)
+VALUES ($1, $2, $3, $4, $6, $5, $7)
 RETURNING id`
   id := 0
-  err := Db.QueryRow(sqlStatement, user.Firstname, user.Lastname, user.Email, user.Password, user.Phone, user.Admin).Scan(&id)
-  if err != nil {
-    panic(err)
-  }
-  fmt.Println("New record ID is:", id)
-}
-
-func createTag(tag models.Tag) {
-	sqlStatement := `
-INSERT INTO tags (userId, time, place, pending, price, accepted)
-VALUES ($1, $2, $3, $4, $5, $6)
-RETURNING id`
-  id := 0
-  err := Db.QueryRow(sqlStatement, tag.UserId, tag.Time, tag.Place, tag.Pending, tag.Price, tag.Accepted).Scan(&id)
+  err := Db.QueryRow(sqlStatement, user.Firstname, user.Lastname, user.Email, user.Password, user.Phone, user.Admin, user.Blacklist).Scan(&id)
   if err != nil {
     panic(err)
   }

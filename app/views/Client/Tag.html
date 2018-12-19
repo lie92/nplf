@@ -1,0 +1,84 @@
+{{set . "title" "Facture"}}
+{{template "header.html" .}}
+<link rel="stylesheet" type="text/css" href="/public/css/my-login.css">
+{{template "header2.html" .}}
+
+
+<br>
+
+{{if .tag}}
+    <br>
+    <br>
+    <br>
+    <body class="my-login-page">
+    <section class="h-100">
+        <div class="container h-100">
+            <div class="row h-100">
+                <div class="card-wrapper">
+                    <div class="brand">
+                        {{$var := .tag.Id}}
+                        <img src={{(printf "/public/img/%d.png" $var)}}>
+                    </div>
+                    <div class="card fat">
+                        <div class="card-body">
+                            <div class="col-lg-12 h3" style="text-align: center">
+                                Tag {{.tag.Place}}
+                            </div>
+                            <br>
+                            <br>
+
+                            <div class="form-group">
+
+                                <p> Adresse : {{.tag.Place}}</p>
+
+                                <p> Orientation : {{.tag.Orientation}}</p>
+
+                                <div class="form-group">Téléphone du responsable : {{.tag.Phone}}</div>
+
+                                <div class="form-group"> Motif : {{.tag.Motif}}</div>
+
+                                <div class="form-group">
+
+                                    <div class="form-group h6" style="text-align: center"> Status :
+                                        {{if .tag.Pending}}
+                                        En attente
+                                    </div>
+                                    {{else}}
+                                    {{if .tag.Accepted.Bool}}
+                                    Accepté
+                                </div>
+
+
+                                <div class="form-group">Prix : {{.tag.Price.Int64}}</div>
+
+                                Date : {{.tag.Time.Day}} {{.tag.Time.Month}} {{.tag.Time.Year}}
+                                {{if gt .tag.Time.Hour 9 }}
+                                    {{.tag.Time.Hour}}:{{else}}
+                                    0{{.tag.Time.Hour}}:{{end}}{{if gt .tag.Time.Minute 9 }}{{.tag.Time.Minute}}{{else}}0{{.tag.Time.Minute}}{{end}}
+
+                                {{else}}
+                                    <div class="form-group">Refusé</div>
+
+                                    <div class="form-group">Raison : {{.tag.Reason.String}}</div>
+
+                                {{end}}
+                                {{end}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </body>
+{{else}}
+    <br><br>
+    <div class="form-group text-center" style="font-weight: 500">
+        Impossible
+    </div>
+{{end}}
+
+{{template "footer.html" .}}

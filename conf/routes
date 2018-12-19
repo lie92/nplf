@@ -21,19 +21,41 @@ GET     /client/facture                         Client.Facture
 
 GET     /client/demande                         Client.Demande
 
+GET     /client/modify                          Client.Modify
+
+GET     /client/tag                          Client.Tag
+
+
+
 POST    /client/demande                         Client.ProcessDemande
+
+POST    /client/modify                          Client.ModifyDemande
+
 
 GET    /client/delete                          Client.DeleteDemande
 
 GET    /Logout                                  App.LogOut
+
+GET    /Profil                                  App.Profil
+
+POST    /UpdateProfil                           App.UpdateProfil
 
 GET     /403                                    App.HTTP403
 
 
 #TONYADMIN
 
-GET     /admin                                  Admin.Administration
+GET    /admin                                      Admin.Administration
 
+GET    /admin/ban                                  Admin.Ban
+
+GET    /admin/Demandes                                  Admin.Demandes
+
+GET    /admin/Details                                  Admin.Details
+
+POST   /admin/BanAction                                    Admin.BanAction
+
+POST   /admin/UnbanAction                                  Admin.UnbanAction
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

@@ -16,49 +16,49 @@
 {{if .tags}}
     <body class="my-login-page">
 
-                    <div class="card fat" style="margin: 20px">
-                        <div class="card-body">
+    <div class="card fat" style="margin: 20px">
+        <div class="card-body">
 
-                            <div class="row" style="text-align: center">
-                                <div class="col-lg-4 h3">
-                                    Date
-                                </div>
-                                <div class="col-lg-4 h3">
-                                    Addresse
-                                </div>
-                                <div class="col-lg-4 h3">
-                                    Prix
-                                </div>
-                            </div>
+            <div class="row" style="text-align: center">
+                <div class="col-lg-4 h3">
+                    Date
+                </div>
+                <div class="col-lg-4 h3">
+                    Adresse
+                </div>
+                <div class="col-lg-4 h3">
+                    Prix
+                </div>
+            </div>
 
-                            {{range .tags}}
-                                <br>
-                                <div class="row" style="text-align: center">
+            {{range .tags}}
+                <br>
+                    <div class="row" style="text-align: center">
 
-                                    <div class="col-lg-4" style="font-weight: 500">
-                                        {{.Time.Day}} {{.Time.Month}} {{.Time.Year}}
-                                        {{if gt .Time.Hour 9 }}
-                                            {{.Time.Hour}}:{{else}}
-                                            0{{.Time.Hour}}:{{end}}{{if gt .Time.Hour 9 }}{{.Time.Minute}}{{else}}0{{.Time.Minute}}{{end}}
-                                    </div>
-                                    <div class="col-lg-4" style="font-weight: 500">
-                                        {{.Place}}
-                                    </div>
-                                    <div class="col-lg-4" style="font-weight: 500">
-                                        {{.Price}}€
-                                    </div>
-
-                                </div>
-                            {{end}}
-
-
-                            <br>
-                            <br>
-                            <div class="form-group text-center" style="font-weight: 500">
-                                Total: {{.total}}€
-                            </div>
+                        <div class="col-lg-4" style="font-weight: 500">
+                            {{.Time.Day}} {{.Time.Month}} {{.Time.Year}}
+                            {{if gt .Time.Hour 9 }}
+                                {{.Time.Hour}}:{{else}}
+                                0{{.Time.Hour}}:{{end}}{{if gt .Time.Minute 9 }}{{.Time.Minute}}{{else}}0{{.Time.Minute}}{{end}}
                         </div>
+                        <div class="col-lg-4" style="font-weight: 500">
+                            {{.Place}}
+                        </div>
+                        <div class="col-lg-4" style="font-weight: 500">
+                            {{.Price.Int64}}€
+                        </div>
+
                     </div>
+            {{end}}
+
+
+            <br>
+            <br>
+            <div class="form-group text-center" style="font-weight: 500">
+                Total: {{.total}}€
+            </div>
+        </div>
+    </div>
 
     </body>
 

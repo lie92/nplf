@@ -1,0 +1,79 @@
+{{set . "title" "Facture"}}
+{{template "header.html" .}}
+<link rel="stylesheet" type="text/css" href="/public/css/my-login.css">
+{{template "header3.html" .}}
+
+<br>
+<br>
+<br>
+<div class="col-lg-12 h3" style="text-align: center">
+    Mes demandes
+</div>
+<br>
+<br>
+<br>
+
+{{if .tags}}
+    <body class="my-login-page">
+
+    <div class="card fat" style="margin: 20px">
+        <div class="card-body">
+
+            <div class="row" style="text-align: center">
+
+                <div class="col-lg-4 h4" style="text-align: center;">
+                    Adresse
+                </div>
+                <div class="col-lg-4 h4" style="text-align: center">
+                    Status
+                </div>
+                <div class="col-lg-4 h4" style="text-align: center">
+                    Actions
+                </div>
+
+            </div>
+
+            {{range .tags}}
+
+                <br>
+
+                     {{if .Pending}}
+                <div class="row">
+
+                    <div class="col-lg-4" style="text-align: center;font-weight: 500">
+                        {{.Place}} (id : {{.Id}})
+                    </div>
+
+                    <div class="col-lg-4" style="text-align: center;font-weight: 500">
+                        {{if .Pending}}
+                            En attente
+                        {{else if .Accepted.Bool}}
+                            Accepté
+                        {{else}}
+                            Refusé
+                        {{end}}
+
+                    </div>
+
+                    <div class="col-lg-4" style="text-align: center;font-weight: 500">
+                        <a href="{{url "Admin.Details" .Id}}" class="text-center">
+                            Détails
+                        </a>
+
+                        {{end}}
+                    </div>
+                </div>
+            {{end}}
+        </div>
+    </div>
+    </body>
+
+{{else}}
+
+<br><br>
+<div class="form-group text-center" style="font-weight: 500">
+    Aucune action prévue
+
+    {{end}}
+</div>
+{{template "footer.html" .}}

@@ -13,7 +13,8 @@ type Tag struct {
 	Accepted    sql.NullBool
 	Pending     bool
 	Reason		sql.NullString
-	Price		int
-	Phone		sql.NullString
-	Motif		sql.NullString
+	Price		sql.NullInt64
+	Phone		string
+	Motif		string
+	Orientation string
 }

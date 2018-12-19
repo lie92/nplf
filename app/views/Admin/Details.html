@@ -1,0 +1,99 @@
+{{set . "title" "Facture"}}
+{{template "header.html" .}}
+<link rel="stylesheet" type="text/css" href="/public/css/my-login.css">
+{{template "header3.html" .}}
+
+
+<br>
+
+{{if .tag}}
+    <br>
+    <br>
+    <br>
+    <body class="my-login-page">
+    <section class="h-100">
+        <div class="container h-100">
+            <div class="row h-100">
+                <div class="card-wrapper">
+                    <div class="brand">
+                        {{$var := .tag.Id}}
+                        <img src={{(printf "/public/img/%d.png" $var)}}>
+                    </div>
+                    <div class="card fat">
+                        <div class="card-body">
+                            <p class="card-text text-center">Adresse : {{.tag.Place}}</p>
+                            <p class="card-text text-center">Téléphone : {{.tag.Phone}}</p>
+                            <p class="card-text text-center">Motif : {{.tag.Motif}}</p>
+                            <!--
+                    <div class="form-group text-center">
+                        <button onclick="location.href='admin?currentoffer={{.Id}}&isaccepted=true'" type="button"  class="btn btn-primary btn-block">
+                            Accepter</button>
+                    </div>
+                    <button onclick="test" class="btn btn-primary btn-block">
+                        Accepter l'offre
+                    </button>
+                    -->
+                            <form action="{{url "Admin.Administration"}}" method="get">
+                                <div id="acceptation_data">
+                                    <div class="form-group">
+                                        <div class="col-md-20">
+
+                                            <label for="date">Date</label>
+                                            <input class="form-control" id="date" name="date" required type="date">
+                                        </div>
+                                        <div class="col-md-20">
+                                            <label for="hour">Heure (Entre 9h et 18h)</label>
+                                            <input class="form-control" required type="time" id="hour" name="hour" min="9:00" max="18:00">
+                                        </div>
+
+                                        <div class="col-md-20">
+                                            <label for="price_rdv">Prix de la mission</label>
+                                            <input class="form-control" required type="number" step=0.01 id="price_rdv" placeholder="Prix de la mission" name="price_rdv"/>
+                                        </div>
+                                        <input class="form-control" type="string" id="currentofferaccepted" name="currentofferaccepted" value="{{.tag.Id}}" style="display: none"/>
+
+                                    </div>
+                                </div>
+                                <div class="form-group no-margin">
+                                    <input class="form-control" type="string" id="uid_accepting" name="uid_accepting" value="{{.tag.UserId}}" style="display: none"/>
+                                    <button type="submit text-center" class="btn btn-primary btn-block">
+                                        Accepter
+                                    </button>
+                                </div>
+                            </form>
+                            <form action="{{url "Admin.Administration"}}" method="get">
+                                <div id="tag_rejet_motif">
+                                    <div class="form-group">
+                                        <div class="col-md-20">
+                                            <label for="motifrejet">Motif de rejet de la mission</label>
+                                            <input class="form-control" required type="string" id="motifrejet" placeholder="Motif rejet" name="motifrejet"/>
+                                        </div>
+                                        <input class="form-control" type="string" id="currentofferrefused" name="currentofferrefused" value="{{.tag.Id}}" style="display: none"/>
+
+                                    </div>
+                                </div>
+                                <div class="form-group no-margin">
+                                    <input class="form-control" type="string" id="uid_refusing" name="uid_refusing" value="{{.tag.UserId}}" style="display: none"/>
+                                    <button type="submit text-center" class="btn btn-primary btn-block">
+                                        Rejeter
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </body>
+{{else}}
+    <br><br>
+    <div class="form-group text-center" style="font-weight: 500">
+        Impossible
+    </div>
+{{end}}
+
+{{template "footer.html" .}}
