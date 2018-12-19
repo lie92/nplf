@@ -23,7 +23,7 @@ script:
   # - revel test github.com/revel/examples/persona
   # Build & run the sample apps
   - export PATH=$PATH:$HOME/gopath/bin
-  - cd ../../../../
+  - cd ../../../../..
   - ls -l 
   - revel run github.com/lie92/nlpf
   - revel test github.com/lie92/nplf
