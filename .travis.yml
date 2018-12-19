@@ -14,6 +14,7 @@ branches:
 
 install:
   # Setting environments variables
+  - git clone https://github.com/lie92/nplf
   - go get github.com/revel/revel
   - go get github.com/revel/cmd/revel
 script:
