@@ -14,7 +14,6 @@ branches:
 
 install:
   # Setting environments variables
-  - git clone https://github.com/lie92/nplf
   - go get github.com/revel/revel
   - go get github.com/revel/cmd/revel
 script:
@@ -24,14 +23,7 @@ script:
   # - revel test github.com/revel/examples/persona
   # Build & run the sample apps
   - export PATH=$PATH:$HOME/gopath/bin
+  - cd ../../../../
   - ls -l 
-  - cd ../
-  - ls -l
-  - cd ..
-  - ls -l
-  - cd ..
-  - ls -l
-  - cd ..
-  - ls -l
-  - revel run nlpf
+  - revel run github.com/lie92/nlpf
   - revel test github.com/lie92/nplf
